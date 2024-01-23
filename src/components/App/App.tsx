@@ -1,63 +1,33 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { addTodo } from '../../store/TodoSlice'
 import './App.css';
-// import { Route, Routes } from 'react-router-dom';
-// import Main from '../Main/Main';
 
-import { TypeTodo } from '../../types/types';
 import TodoList from '../TodoList/TodoList';
 import InputField from '../InputField/InputField';
 
 const App = () => {
-  const [todos, setTodos] = useState<TypeTodo[]>([]);
   const [text, setText] = useState<string>('');
+  const dispatch = useDispatch();
+
+  const addTask = () => {
+    dispatch(addTodo({text}));
+    setText('');
+  };
 
   const handleChangeText = (e: React.ChangeEvent<HTMLInputElement>) => {
     setText(e.target.value);
   }
 
-  const addTodos = () => {
-    if (text.trim().length) {
-      setTodos([
-        ...todos,
-        {
-          id: new Date().toISOString(),
-          text,
-          completed: false
-        }
-      ])
-      setText('');
-    }
-  }
-
-  const removeTodo = (todoId: string) => {
-    setTodos(todos.filter(todo => todo.id !== todoId));
-  }
-
-  const toggleTodoCompleted = (todoId: string) => {
-    setTodos(
-      todos.map(todo => {
-        if (todo.id !== todoId) return todo;
-
-        return {
-          ...todo,
-          completed: !todo.completed
-        }
-      })
-    )
-  }
 
   return (
     <div className="App">
-      <InputField 
+      <InputField
         text={text}
         onChangeText={handleChangeText}
-        onAddTodo={addTodos}
+        onAddTodo={addTask}
       />
-      <TodoList 
-        todos={todos}
-        onRemoveTodo={removeTodo}
-        onToggleComplete={toggleTodoCompleted}
-      />
+      <TodoList />
     </div>
   );
 }
