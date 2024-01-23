@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+}
+
+ul {
+  list-style-type: none;
+
+}
+
+li {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.todo__delete-btn {
+  color: red;
+  cursor: pointer;
+}
+
+input:checked + span {
+  text-decoration: line-through;
+}
